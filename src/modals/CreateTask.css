@@ -1,0 +1,4 @@
+
+.form-control:hover, .form-contr:focus{
+    border-color:rgb(118, 178, 246);
+}
