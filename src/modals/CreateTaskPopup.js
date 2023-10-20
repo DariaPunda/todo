@@ -2,10 +2,33 @@ import React, { useState } from "react";
 import "./CreateTask.css";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-const CreateTaskPopup = ({ openModal, toggle, saveTask }) => {
+const CreateTaskPopup = ({ openModal, toggle, onPosted, onStatus }) => {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
   const [isValid, setIsValid] = useState(true);
+
+  const postTask = async (task) => {
+    try {
+      const sendTask = await fetch(
+        "https://todo-list-52df6-default-rtdb.europe-west1.firebasedatabase.app/tasks.json",
+        {
+          method: "POST",
+          body: JSON.stringify(task),
+          headers: {
+            "Contet-Type": "application/json",
+          },
+        }
+      );
+      if (!sendTask.ok) {
+        throw new Error("Oops, something went wrong!");
+      }
+      onPosted(true); //THIS IS A CHAIN level 2
+      const data = await sendTask.json();
+       console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -20,7 +43,6 @@ const CreateTaskPopup = ({ openModal, toggle, saveTask }) => {
   };
 
   const submitTaskHandler = (e) => {
-    e.preventDefault();
     if (taskName.length < 1) {
       setIsValid(false);
 
@@ -29,12 +51,16 @@ const CreateTaskPopup = ({ openModal, toggle, saveTask }) => {
       let task = {};
       task["Name"] = taskName;
       task["Description"] = description;
-      
-      saveTask(task);
+      task["Status"] = onStatus;
+
+      // saveTask(task);
       setTaskName("");
       setDescription("");
       setIsValid(true);
       toggle();
+      postTask(task);
+      // onPosted(false); //THIS IS A CHAIN level 2
+      
     }
   };
 
@@ -72,7 +98,7 @@ const CreateTaskPopup = ({ openModal, toggle, saveTask }) => {
         </form>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={submitTaskHandler} type="submit">
+        <Button color="primary" onClick={submitTaskHandler} >
           Create
         </Button>
         <Button color="secondary" onClick={toggle}>

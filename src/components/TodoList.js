@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import CreateTaskPopup from "../modals/CreateTaskPopup";
 import Button from "./Button";
-// import Card from "../components/Card/Card";
-import "./TodoList.css";
-// import Filter from "./Filter/Filter";
 
-const TodoList = ({saveTask}) => {
+const TodoList = ({ onPosted, onStatus }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const closeModal = () => {
     setIsVisible(!isVisible);
-    console.log("closing works");
-  };
-  const openModalHandler = () => {
-    setIsVisible(true);
-    console.log("opening works");
   };
 
+  const openModalHandler = () => {
+    setIsVisible(true);
+  };
 
   return (
     <>
@@ -30,7 +25,8 @@ const TodoList = ({saveTask}) => {
       <CreateTaskPopup
         openModal={isVisible}
         toggle={closeModal}
-        saveTask={saveTask}
+              onPosted={onPosted}
+              onStatus={onStatus}
       />
     </>
   );
