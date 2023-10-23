@@ -1,23 +1,20 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import Button from "../Button";
 import TrashImg from "../../assets/TrashImg";
 import ChangeIcon from "../../assets/ChangeIcon";
-import  AlertDelete  from "../../modals/AlertDelete";
+import OnDeletePopup from "../../modals/OnDeletePopup";
+import Context from "../../store/context";
 
-const CardFooter = ({ statChange, borderColor, id, onDelete, editTextHandler }) => {
+const CardFooter = ({ statChange, borderColor, id, editTextHandler }) => {
+  const [visible, setVisible] = useState(false);
 
+  const ctx = useContext(Context);
 
-  const deleteCardHandler = (id) => {
-    console.log("DELETED:", id);
-    removeTask(id);
-    onDelete(true); //THIS IS A CHAIN level 3
-  };
-    
-  const changeStatusHandler = (event) => {
-      statChange(event.target.value);
-      console.log(event.target.value);
-  };
+  const onDismiss = () => setVisible(!visible);
 
+  const deleteCardHandler = () => setVisible(true);
+
+  const changeStatusHandler = (event) => statChange(event.target.value);
 
   const removeTask = async (id) => {
     try {
@@ -30,16 +27,22 @@ const CardFooter = ({ statChange, borderColor, id, onDelete, editTextHandler }) 
       if (!deleteTask.ok) {
         throw new Error("Sorry, something went wrong!");
       }
-      onDelete(true); //THIS IS A CHAIN level 3
-      console.log("DELETED:", id);
+      ctx.setDeleted(true);
     } catch (error) {
       console.log(error.message);
     }
   };
 
   return (
-    <div className={`${borderColor} card-footer card-container bg-transparent`} id={id}>
-      <Button className="btn-outline-secondary" onClick={editTextHandler} id={id}>
+    <div
+      className={`${borderColor} card-footer card-container bg-transparent`}
+      id={id}
+    >
+      <Button
+        className="btn-outline-secondary"
+        onClick={editTextHandler}
+        id={id}
+      >
         <ChangeIcon />
       </Button>
 
@@ -58,7 +61,7 @@ const CardFooter = ({ statChange, borderColor, id, onDelete, editTextHandler }) 
             <button
               onClick={changeStatusHandler}
               value="progress"
-              className="dropdown-item btn-primary list-group-item-action list-group-item-primary"
+              className="dropdown-item btn-outline-primary list-group-item-action list-group-item-primary"
             >
               In Progress
             </button>
@@ -67,7 +70,7 @@ const CardFooter = ({ statChange, borderColor, id, onDelete, editTextHandler }) 
             <button
               onClick={changeStatusHandler}
               value="pause"
-              className="dropdown-item btn-warning list-group-item-action list-group-item-warning"
+              className="dropdown-item btn-outline-warning list-group-item-action list-group-item-warning"
             >
               Paused
             </button>
@@ -87,12 +90,16 @@ const CardFooter = ({ statChange, borderColor, id, onDelete, editTextHandler }) 
       <Button
         className="btn-outline-danger"
         id={id}
-        onClick={deleteCardHandler(id)}
+        onClick={deleteCardHandler}
       >
         <TrashImg />
-          </Button>
-          
-          <AlertDelete></AlertDelete>
+      </Button>
+      <OnDeletePopup
+        openModal={visible}
+        id={id}
+        toggle={onDismiss}
+        removeTask={removeTask}
+      ></OnDeletePopup>
     </div>
   );
 };

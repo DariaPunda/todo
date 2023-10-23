@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./CreateTask.css";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import Context from "../store/context.js";
 
-const CreateTaskPopup = ({ openModal, toggle, onPosted, onStatus }) => {
+const CreateTaskPopup = ({ openModal, toggle }) => {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
   const [isValid, setIsValid] = useState(true);
+
+  const ctx = useContext(Context);
 
   const postTask = async (task) => {
     try {
@@ -22,9 +25,7 @@ const CreateTaskPopup = ({ openModal, toggle, onPosted, onStatus }) => {
       if (!sendTask.ok) {
         throw new Error("Oops, something went wrong!");
       }
-      onPosted(true); //THIS IS A CHAIN level 2
-      const data = await sendTask.json();
-       console.log(data);
+      ctx.setPosted(true);
     } catch (error) {
       console.log(error.message);
     }
@@ -45,30 +46,26 @@ const CreateTaskPopup = ({ openModal, toggle, onPosted, onStatus }) => {
   const submitTaskHandler = (e) => {
     if (taskName.length < 1) {
       setIsValid(false);
-
-      // && description.length < 1
+      console.log(isValid);
     } else {
       let task = {};
       task["Name"] = taskName;
       task["Description"] = description;
-      task["Status"] = onStatus;
-
-      // saveTask(task);
+      task["Status"] = ctx.status;
+      postTask(task);
       setTaskName("");
       setDescription("");
       setIsValid(true);
       toggle();
-      postTask(task);
-      // onPosted(false); //THIS IS A CHAIN level 2
-      
     }
+    // setIsValid(true);
   };
 
   return (
     <Modal isOpen={openModal} toggle={toggle}>
       <ModalHeader toggle={toggle}>Create Task</ModalHeader>
       <ModalBody>
-        <form>
+        <form autoComplete="off">
           <div className="form-group mb-3">
             <label className="form-label text-primary-emphasis">
               Task Name
@@ -98,7 +95,7 @@ const CreateTaskPopup = ({ openModal, toggle, onPosted, onStatus }) => {
         </form>
       </ModalBody>
       <ModalFooter>
-        <Button color="primary" onClick={submitTaskHandler} >
+        <Button color="primary" onClick={submitTaskHandler}>
           Create
         </Button>
         <Button color="secondary" onClick={toggle}>

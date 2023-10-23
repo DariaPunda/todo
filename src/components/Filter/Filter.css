@@ -5,3 +5,11 @@
   justify-content: center;
   gap: 15px;
 }
+    @media (max-width:768px) {
+    .filter-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+    }

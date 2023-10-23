@@ -9,14 +9,19 @@
 // For that i need two sates to collect the data, create PATCH request to the -----ok
 //firebase and fetch and rerender task with new value
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+  import Context from "../store/context.js";
 
-const EditTextPopup = ({ openModal, toggle, name, description, onEdited, id }) => {
+const EditTextPopup = ({ openModal, toggle, name, description,id, 
+  // onEdited
+}) => {
   const [editName, setEditName] = useState(name);
   const [editDescription, setEditDescription] = useState(description);
 
+  const ctx = useContext(Context);
+  
   const editHandler = (e) => {
     const { name, value } = e.target;
 
@@ -34,10 +39,11 @@ const EditTextPopup = ({ openModal, toggle, name, description, onEdited, id }) =
 
   const saveEditedTaskHandler = (e) => {
    
-      updateTaskContent(editName, editDescription, id);
-      onEdited(true);
-      console.log(id);
-    console.log("SUBMIT EDITING", e.target.value);
+    updateTaskContent(editName, editDescription, id);
+    ctx.setEdited(true);
+      // onEdited(true);
+    // console.log(id);
+    // console.log("SUBMIT EDITING", e.target.value);
     toggle();
 
   };

@@ -1,15 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "../../components/Card/Card";
 import "./TaskList.css";
+import Context from "../../store/context.js";
 
-const TaskList = ({
-  taskList,
-  onDelete,
-  onStatusChange,
-  onFilter,
-  onEdited,
-}) => {
-  const cardItem = taskList
+const TaskList = ({ onFilter }) => {
+  const ctx = useContext(Context);
+  const cardItem = ctx.taskList
     .filter((taskObj) => {
       if (onFilter === "all") {
         return true;
@@ -19,7 +15,6 @@ const TaskList = ({
     })
     .map((taskObj) => {
       console.log(taskObj.Status);
-      // console.log(onFilter)
       return (
         <div className="task-card" key={taskObj.id}>
           <Card
@@ -27,9 +22,6 @@ const TaskList = ({
             description={taskObj.Description}
             status={taskObj.Status}
             id={taskObj.id}
-            onDelete={onDelete}
-            onStatusChange={onStatusChange}
-            onEdited={onEdited}
           />
         </div>
       );
