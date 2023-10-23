@@ -3,7 +3,7 @@ import CreateTaskPopup from "../../modals/CreateTaskPopup";
 import Button from "../Button";
 import './TododList.css';
 
-const TodoList = () => {
+const ToDoList = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const closeModal = () => {
@@ -28,4 +28,4 @@ const TodoList = () => {
   );
 };
 
-export default TodoList;
+export default ToDoList;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TodoList from "./components/ToDoList/TodoList";
+import ToDoList from "./components/ToDoList/TodoList";
 import Filter from "./components/Filter/Filter";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className="App">
-      <TodoList />
+      <ToDoList />
       <main>
         <Filter onFilterChange={filterHandler} />
         <TaskList onFilter={currentFilter} />
