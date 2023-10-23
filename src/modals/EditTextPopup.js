@@ -73,7 +73,7 @@ const EditTextPopup = ({ openModal, toggle, name, description,id,
     <Modal isOpen={openModal} toggle={toggle}>
       <ModalHeader toggle={toggle}>Edit Task</ModalHeader>
       <ModalBody>
-        <form>
+        <form autoComplete="off">
           <div className="form-group mb-3">
             <label className="form-label text-primary-emphasis">
               Task Name
