@@ -58,7 +58,6 @@ const CreateTaskPopup = ({ openModal, toggle }) => {
       setIsValid(true);
       toggle();
     }
-    // setIsValid(true);
   };
 
   return (
