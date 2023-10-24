@@ -13,7 +13,7 @@ const ToDoList = () => {
   const openModalHandler = () => {
     setIsVisible(true);
   };
-// text-bg-info  bg-success-subtle 
+
   return (
     <>
       <header className="header text-center">
