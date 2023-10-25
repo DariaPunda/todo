@@ -7,7 +7,11 @@ import "./App.css";
 import TaskList from "./components/TaskList/TaskList";
 import Footer from "./components/Footer/Footer";
 
-
+const styles = {
+  minHeight: 'calc(100vh - 266px)', 
+  display: 'flex',
+  flexDirection: 'column',
+};
 
 function App() {
   const [currentFilter, setCurrentFilter] = useState("all");
@@ -20,7 +24,7 @@ function App() {
   
       <div className="app" >
         <ToDoList />
-        <main >
+        <main style={styles}>
           <Filter onFilterChange={filterHandler} />
           <TaskList onFilter={currentFilter} />
         </main>

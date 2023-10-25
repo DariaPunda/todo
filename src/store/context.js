@@ -10,7 +10,12 @@ const Context = React.createContext({
   status: "progress",
   setStatus: () => {},
   taskList: [],
-  setTaskList: () => {},
+  setTaskList: () => { },
+  message: "Something went wrong!",
+  error: '',
+  setError: () => { },
+  loading: false,
+  setLoading:() =>{},
 });
 
 export const ContextProvider = (props) => {
@@ -19,8 +24,13 @@ export const ContextProvider = (props) => {
   const [edited, setEdited] = useState(false);
   const [status, setStatus] = useState("progress");
   const [taskList, setTaskList] = useState([]);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
 
   const fetchedTasks = useCallback(async () => {
+    setLoading(true);
+    setError('');
     try {
       const response = await fetch(
         "https://todo-list-52df6-default-rtdb.europe-west1.firebasedatabase.app/tasks.json"
@@ -44,8 +54,10 @@ export const ContextProvider = (props) => {
       setTaskList(() => [...loadedTask]);
       console.log(loadedTask);
     } catch (error) {
+      setError(error.message);
       console.log(error.message);
     }
+    setLoading(false);
   }, []);
     
 //Rerender the list if changed status, edited text, deleted the task and posted a task 
@@ -78,6 +90,10 @@ export const ContextProvider = (props) => {
         setStatus: setStatus,
         taskList: taskList,
         setTaskList: setTaskList,
+        error: error,
+        setError: setError,
+        loading: loading,
+        setLoading:setLoading,
       }}
     >
       {props.children}

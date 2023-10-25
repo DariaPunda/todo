@@ -4,7 +4,7 @@ import HeartIcon from '../../assets/HeartIcon';
 
 const Footer = () => {
   return (
-      <footer className="footer text-center ">
+      <footer className=" text-center footer-container">
           <p>Created with love  <HeartIcon/></p>
       </footer>
   )

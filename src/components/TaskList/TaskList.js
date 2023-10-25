@@ -5,7 +5,11 @@ import Context from "../../store/context.js";
 
 const TaskList = ({ onFilter }) => {
   const ctx = useContext(Context);
-  const cardItem = ctx.taskList
+  
+  let content = <p>There is no tasks to do.</p>
+
+  if (ctx.taskList.length > 0) {
+   content =  ctx.taskList
     .filter((taskObj) => {
       if (onFilter === "all") {
         return true;
@@ -15,7 +19,8 @@ const TaskList = ({ onFilter }) => {
     })
     .map((taskObj) => {
       console.log(taskObj.Status);
-      return (
+      return ( 
+       
         <div className="task-card" key={taskObj.id}>
           <Card
             name={taskObj.Name}
@@ -25,9 +30,18 @@ const TaskList = ({ onFilter }) => {
           />
         </div>
       );
-    });
+    })
+  }
 
-  return <div className="task-container">{cardItem}</div>;
-};
+  if (ctx.error) {
+    content = <p className=" error text-center fs-3 text-danger ">{ctx.error}</p>
+  }
+  
+  if (ctx.loading) {
+     content = <p className="loading text-center fs-4 text-primary">Loading...</p>
+  }
+
+  return <div className="task-container">{content}</div>;
+  };
 
 export default TaskList;

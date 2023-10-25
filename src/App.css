@@ -1,9 +1,6 @@
-.app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+body{
+  width: 100vw;
 }
-
 p {
   margin: 0;
 }

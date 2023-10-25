@@ -9,7 +9,7 @@ const CreateTaskPopup = ({ openModal, toggle }) => {
   const [isValid, setIsValid] = useState(true);
 
   const ctx = useContext(Context);
-
+ 
   const postTask = async (task) => {
     try {
       const sendTask = await fetch(
@@ -27,10 +27,13 @@ const CreateTaskPopup = ({ openModal, toggle }) => {
       }
       ctx.setPosted(true);
     } catch (error) {
+      // message = "Oops, something went wrong!";
       console.log(error.message);
+      
     }
   };
 
+  // console.log(message);
   const changeHandler = (e) => {
     const { name, value } = e.target;
 
