@@ -14,14 +14,15 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <ToDoList />
-      <main>
-        <Filter onFilterChange={filterHandler} />
-        <TaskList onFilter={currentFilter} />
-      </main>
-      <Footer/>
-    </div>
+      <div className="App">
+        <ToDoList />
+        <main >
+          <Filter onFilterChange={filterHandler} />
+          <TaskList onFilter={currentFilter} />
+        </main>
+      
+          <Footer />
+      </div>
   );
 }
 
