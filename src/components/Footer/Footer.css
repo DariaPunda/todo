@@ -14,10 +14,10 @@
   }
 } */
 .footer-container{
-margin-top: 20px;
+/* margin-top: 20px; */
 width: 100%;
 background-color: #0f5f39;
 padding: 20px;
-text-align: center;
+/* text-align: center; */
 color: white;
 }

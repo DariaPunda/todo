@@ -11,7 +11,6 @@ const Context = React.createContext({
   setStatus: () => {},
   taskList: [],
   setTaskList: () => { },
-  message: "Something went wrong!",
   error: '',
   setError: () => { },
   loading: false,

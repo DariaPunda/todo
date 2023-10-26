@@ -6,31 +6,29 @@ import Context from "../../store/context.js";
 const TaskList = ({ onFilter }) => {
   const ctx = useContext(Context);
   
-  let content = <p>There is no tasks to do.</p>
+  let content = <p  className="text-center">There is no tasks to do.</p>
 
   if (ctx.taskList.length > 0) {
-   content =  ctx.taskList
-    .filter((taskObj) => {
+    content = ctx.taskList.filter((taskObj) => {
       if (onFilter === "all") {
         return true;
       } else {
         return taskObj.Status === onFilter;
       }
-    })
-    .map((taskObj) => {
-      console.log(taskObj.Status);
-      return ( 
+    }).reverse().map((taskObj) => {
+        console.log(taskObj.Status);
+        return (
        
-        <div className="task-card" key={taskObj.id}>
-          <Card
-            name={taskObj.Name}
-            description={taskObj.Description}
-            status={taskObj.Status}
-            id={taskObj.id}
-          />
-        </div>
-      );
-    })
+          <div className="task-card" key={taskObj.id}>
+            <Card
+              name={taskObj.Name}
+              description={taskObj.Description}
+              status={taskObj.Status}
+              id={taskObj.id}
+            />
+          </div>
+        );
+      })
   }
 
   if (ctx.error) {
